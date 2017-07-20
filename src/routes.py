@@ -1,7 +1,11 @@
+import json
+
 from main import app
 from flask import jsonify, render_template, request
 
 from data_src import LINES, STOPS
+
+from find_journey import nearest_stops
 
 
 @app.route('/')
@@ -17,7 +21,21 @@ def send_line(lineId, direction):
     return jsonify(LINES[key])
 
 
-@app.route('/getjourney', methods=['POST'])
-def get_journey():
-    print(request.json)
-    return jsonify({'st': 'OK'})
+@app.route('/getstops', methods=['POST'])
+def get_stops():
+    origin = request.json['origin']
+    destination = request.json['destination']
+
+    origins = nearest_stops(origin['lat'],
+                            origin['lng'],
+                            max_n=5,
+                            max_dist=500)
+
+    destinations = nearest_stops(destination['lat'],
+                                 destination['lng'],
+                                 max_n=5,
+                                 max_dist=500)
+    return jsonify({
+        'origins': origins,
+        'destinations': destinations
+    })
