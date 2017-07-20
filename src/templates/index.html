@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        #map {
+            height: 700px;
+            width: 100%;
+        }
+    </style>
+
+    <script src="{{url_for( 'static', filename='js/index.js' )}}">
+
+    </script>
+
+</head>
+
+<body>
+    <div id="inputDiv"></div>
+    <div id="map"></div>
+
+    <!--<script>
+        //const stops = {{ STOPS | tojson | safe }}
+
+
+        function initMap() {
+            const CENTER = {
+                lat: 53.346348,
+                lng: -6.263098
+            }
+
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 12,
+                center: CENTER
+            })
+                .addListener(map, 'click', function (event) {
+                    var marker = createMarker(event.latLng)
+                })
+            /*
+                        var markers = stops.map(x => new google.maps.Marker({
+                            position: { lat: x.lat, lng: x.lng },
+                            title: x.stopId,
+                            map: map
+                        }))
+            */
+            var markers = []
+
+            for (var i = 0; i < markers.length; i++) {
+                markers[i].addListener('click', () => {
+                    markers[i].setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
+                })
+            }
+
+        }
+    </script>
+
+    -->
+
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfU_M1JL1ZqH4QMhd3OALLgjBC8l2tAdw&callback=initMap">
+
+    </script>
+</body>
+
+</html>
