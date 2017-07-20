@@ -5,7 +5,7 @@ from flask import jsonify, render_template, request
 
 from data_src import LINES, STOPS
 
-from find_journey import nearest_stops
+from find_journey import nearest_stops, fewest_changes_journey, parse_route
 
 
 @app.route('/')
@@ -35,6 +35,30 @@ def get_stops():
                                  destination['lng'],
                                  max_n=5,
                                  max_dist=500)
+
+    routes = []
+    for origin in origins:
+        for destination in destinations:
+            routes.append(fewest_changes_journey(
+                origin['id'], destination['id']))
+
+    routes = [r for r in routes
+              if not r is None and len(r) != 0]
+
+    fewest_changes = 1000  # let's hope!
+    for r in routes:
+        if len(r) < fewest_changes:
+            fewest_changes = len(r)
+
+    print(fewest_changes)
+
+    routes = [
+        r for r in routes if len(r) == fewest_changes]
+
+    print(routes)
+
+    journeys = [list(parse_route(r)) for r in routes]
+    print(journeys)
     return jsonify({
         'origins': origins,
         'destinations': destinations
