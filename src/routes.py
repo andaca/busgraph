@@ -3,14 +3,14 @@ import json
 from main import app
 from flask import jsonify, render_template, request
 
-from data_src import LINES, STOPS
+from data_src import LINES, STOP_COORDS
 
 from find_journey import nearest_stops, fewest_changes_journey, parse_route
 
 
 @app.route('/')
 def index():
-    return render_template('index.html', STOPS=STOPS)
+    return render_template('index.html')
 
 
 @app.route('/line/<lineId>/<direction>')
@@ -50,16 +50,42 @@ def get_stops():
         if len(r) < fewest_changes:
             fewest_changes = len(r)
 
-    print(fewest_changes)
-
+    # only use routes with the fewest number of changes
+    # required
     routes = [
         r for r in routes if len(r) == fewest_changes]
 
-    print(routes)
-
     journeys = [list(parse_route(r)) for r in routes]
+
+    # get coords of all stops
+    # for j in journeys:
+    #    for bus in j:
+    #        bus['board_coords'] = STOP_COORDS[bus['board']]
+    #        bus['deboard_coords'] = STOP_COORDS[bus['deboard']]
+
     print(journeys)
-    return jsonify({
-        'origins': origins,
-        'destinations': destinations
-    })
+
+    stops = []
+    for journey in journeys:
+        for section in journey:
+            board_coords = STOP_COORDS[section['board']]
+            deboard_coords = STOP_COORDS[section['deboard']]
+
+            # there can be > 1 bus options for the same
+            # section
+            for bus in section['busses']:
+                stops.append({
+                    'bus': bus,
+                    'board': {
+                        'id': section['board'],
+                        'coords': board_coords
+                    },
+                    'deboard': {
+                        'id': section['deboard'],
+                        'coords': deboard_coords
+                    }})
+
+    print(stops)
+    return jsonify(stops)
+    # this is way too complicated to unpack with js
+    # return jsonify(journeys)

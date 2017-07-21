@@ -5,7 +5,7 @@ import pickle
 datadir = dirname(__file__) + '/../data/'
 
 with open(datadir + 'stops.pkl', 'rb') as f:
-    STOPS = pickle.load(f)
+    STOP_COORDS = pickle.load(f)
 
 with open(datadir + 'buslines.json') as f:
     LINES = json.load(f)

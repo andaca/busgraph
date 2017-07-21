@@ -6,6 +6,11 @@ from data_src import ALL_STOPS_TREE, COORD_STOPS, GRAPH, LINES
 
 
 def nearest_stops(lat, lon, max_n=1, max_dist=100):
+    """
+    @returns {'coords': tuple,
+               'id': str,
+               'dist: float}
+    """
     global ALL_STOPS_TREE
     results = []
 
@@ -62,7 +67,12 @@ def parse_route(changes):
         for edge in edges.values():
             lines.append(edge['line'])
 
-        yield lines, prev_stop
+        yield {
+            'busses': lines,
+            'board': prev_stop,
+            'deboard': next_stop
+        }
+
         prev_stop = next_stop
 
 
