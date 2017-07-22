@@ -1,15 +1,14 @@
 const SERVER_URL = 'http://127.0.0.1:5000'
 
 function initMap() {
-    const CENTER = {
-        lat: 53.346348,
-        lng: -6.263098
-    }
 
     window.map = new google.maps.Map(
         document.getElementById('map'), {
             zoom: 12,
-            center: CENTER
+            center: {
+                lat: 53.346348,
+                lng: -6.263098
+            }
         }
     )
 
@@ -92,10 +91,14 @@ function showJourneys(journeys) {
 
     window.polylines = journeys.map(x => new google.maps.Polyline({
         path: [
-            new google.maps.LatLng(x.board.coords[0],
-                x.board.coords[1]),
-            new google.maps.LatLng(x.deboard.coords[0],
-                x.deboard.coords[1])
+            new google.maps.LatLng(
+                x.board.coords[0],
+                x.board.coords[1]
+            ),
+            new google.maps.LatLng(
+                x.deboard.coords[0],
+                x.deboard.coords[1]
+            )
         ],
         strokeColor: "#FF0000",
         strokeOpacity: 1.0,
