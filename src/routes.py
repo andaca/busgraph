@@ -28,8 +28,8 @@ def get_stops():
 
     origins = nearest_stops(origin['lat'],
                             origin['lng'],
-                            max_n=5,
-                            max_dist=500)
+                            max_n=10,
+                            max_dist=200)
 
     destinations = nearest_stops(destination['lat'],
                                  destination['lng'],
