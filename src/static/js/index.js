@@ -1,5 +1,6 @@
 const SERVER_URL = 'http://127.0.0.1:5000'
 
+
 function initMap() {
 
     window.map = new google.maps.Map(
@@ -17,7 +18,7 @@ function initMap() {
             lat: 53.346348,
             lng: -6.263098
         },
-        map: map,
+        map: window.map,
         label: "O",
         draggable: true
     })
@@ -27,25 +28,31 @@ function initMap() {
             lat: 53.344196,
             lng: -6.257776
         },
-        map: map,
+        map: window.map,
         label: "D",
         draggable: true
     })
 
     destinationMarker.addListener('dragend', handleDragEnd)
     originMarker.addListener('dragend', handleDragEnd)
+
+    new google.maps.InfoWindow({
+        content: "Drag to origin"
+    }).open(map, originMarker)
+
+    new google.maps.InfoWindow({
+        content: "Drag to destination"
+    }).open(map, destinationMarker)
 }
 
 
 function handleDragEnd(event) {
     if (typeof window.polylines !== 'undefined') {
-        for (var i = 0; i < window.polylines.length; i++) {
-            window.polylines[i].setMap(null)
-        }
+        window.polylines.forEach(x => x.setMap(null))
         window.polylines = []
     }
 
-    var origin = {
+    const origin = {
         lat: window.originMarker
             .getPosition()
             .lat(),
@@ -54,7 +61,7 @@ function handleDragEnd(event) {
             .lng()
     }
 
-    var destination = {
+    const destination = {
         lat: window.destinationMarker
             .getPosition()
             .lat(),
@@ -100,6 +107,7 @@ function showJourneys(journeys) {
                 x.deboard.coords[1]
             )
         ],
+
         strokeColor: "#FF0000",
         strokeOpacity: 1.0,
         strokeWeight: 1,

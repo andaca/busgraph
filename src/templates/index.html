@@ -6,7 +6,22 @@
         #map {
             height: 700px;
             width: 100%;
+            max-width: 600px;
+            margin: auto;
         }
+        /*
+        #markerCard {
+            height: 200px;
+            width: 200px;
+            border-radius: 2px;
+            margin-top: 30px;
+            left: calc(50% - 100px);
+            position: absolute;
+            top: 10px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.6);
+            background-color: white;
+            z-index: 1000;
+        }*/
     </style>
 
     <script src="{{url_for( 'static', filename='js/index.js' )}}">
@@ -15,8 +30,12 @@
 </head>
 
 <body>
-    <div id="map"></div>
+    <div container>
+        <div id="markerCard"></div>
+        <div id="map">
 
+        </div>
+    </div>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfU_M1JL1ZqH4QMhd3OALLgjBC8l2tAdw&callback=initMap">
     </script>
 </body>
